@@ -63,7 +63,36 @@
     transition:background .2s !important;
   }
   .nav-cta:hover{background:var(--blue) !important;border-bottom:none !important;}
-  @media(max-width:880px){.navlinks{display:none}}
+  /* 햄버거 버튼 */
+  .ham{
+    display:none;flex-direction:column;justify-content:center;gap:5px;
+    width:40px;height:40px;cursor:pointer;background:none;border:none;padding:4px;
+  }
+  .ham span{display:block;width:24px;height:2px;background:var(--navy);transition:all .3s;}
+  .ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .ham.open span:nth-child(2){opacity:0;}
+  .ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  /* 모바일 드로어 */
+  .mob-nav{
+    display:none;position:fixed;inset:0;z-index:90;
+    background:#fff;flex-direction:column;padding:100px 32px 48px;
+    gap:0;overflow-y:auto;
+  }
+  .mob-nav.open{display:flex;}
+  .mob-nav a{
+    font-size:1.35rem;font-weight:600;color:var(--navy);
+    padding:18px 0;border-bottom:1px solid var(--line);
+  }
+  .mob-nav a.nav-cta{
+    margin-top:28px;background:var(--navy);color:#fff;
+    text-align:center;padding:18px;border:none;font-size:1.1rem;
+  }
+
+  @media(max-width:880px){
+    .navlinks{display:none;}
+    .ham{display:flex;}
+  }
 
   /* ── hero ── */
   header{
@@ -108,9 +137,28 @@
   
   
   @media(max-width:860px){
-    .hero-inner{grid-template-columns:1fr;}
-    .hero-fig{display:none;}
-    .hero-text{padding:60px 0;}
+    .hero-inner{
+      grid-template-columns:1fr;
+      min-height:unset;
+    }
+    .hero-fig{
+      display:block;
+      order:-1;
+      width:100%;
+      /* 원본 비율(523:706 ≈ 3:4) 유지 — 가로 폭의 75% 높이 */
+      aspect-ratio:4/3;
+      min-height:unset;
+      height:auto;
+    }
+    .hero-fig img{
+      width:100%;height:100%;
+      object-fit:cover;
+      object-position:center center;
+    }
+    .hero-text{padding:44px 0 52px;}
+  }
+  @media(max-width:600px){
+    .hero-fig{aspect-ratio:3/2;}
   }
 
   /* spec bar */
@@ -365,11 +413,116 @@
     font-size:1rem;font-weight:700;
     color:rgba(255,255,255,.7);letter-spacing:.04em;
   }
+  footer .copy{color:rgba(255,255,255,.25);font-size:.76rem;}
 
   /* reveal */
   .rv{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);}
   .rv.in{opacity:1;transform:none;}
   @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;}}
+
+  /* ── 모바일 전용 ── */
+  @media(max-width:600px){
+    :root{--gut:20px;}
+
+    /* nav */
+    nav .wrap{height:62px;}
+    .brand b{font-size:1.08rem;}
+
+    /* hero */
+    .hero-text{padding:36px 0 48px;}
+    header h1{font-size:clamp(1.7rem,7vw,2.4rem);}
+    header .lede{font-size:.9rem;line-height:1.85;}
+    /* 모바일에선 하단 페이드만 */
+    .hero-fig::after{
+      background:linear-gradient(to bottom, transparent 40%, var(--bg-2) 100%);
+    }
+    .kicker{font-size:.64rem;margin-bottom:20px;}
+
+    /* spec bar */
+    .spec-bar{grid-template-columns:repeat(2,1fr);}
+    .sp{padding:20px 0 20px 20px;}
+    .sp .v{font-size:1.5rem;}
+    .sp:nth-child(2){border-right:none;}
+    .sp:nth-child(3),.sp:nth-child(4){border-top:1px solid rgba(255,255,255,.08);}
+
+    /* sections */
+    section{padding:60px 0;}
+    .sec-head{grid-template-columns:1fr;gap:14px;margin-bottom:36px;}
+    .stitle{font-size:1.55rem;}
+
+    /* method */
+    .method{grid-template-columns:1fr;}
+    .mcol{padding:28px 20px;border-right:none;border-bottom:1px solid var(--line);}
+    .mcol:last-child{border-bottom:none;}
+    .mcol dl{gap:10px 16px;}
+
+    /* process */
+    .proc{grid-template-columns:1fr;}
+    .pstep{padding:28px 20px;border-right:none;border-bottom:1px solid var(--line);}
+    .pstep:last-child{border-bottom:none;}
+    .pstep .pn{font-size:2rem;}
+
+    /* pull */
+    .pull{padding:30px 24px;gap:16px;}
+    .pull::before{height:36px;}
+    .pull p{font-size:.95rem;}
+
+    /* 테이블 → 카드형 */
+    table.spec thead{display:none;}
+    table.spec tbody tr{
+      display:block;padding:18px 16px;
+      border-bottom:1px solid var(--line);
+      background:#fff;
+    }
+    table.spec tbody tr:last-child{border-bottom:none;}
+    table.spec td{
+      display:block;padding:3px 0;border:none;
+      font-size:.88rem;
+    }
+    table.spec td.src:first-child{
+      font-size:.68rem;letter-spacing:.14em;color:var(--blue);
+      text-transform:uppercase;font-weight:600;margin-bottom:4px;
+    }
+    table.spec td .name{font-size:.95rem;}
+    table.spec td.q{font-size:.88rem;}
+
+    /* records */
+    .rec{grid-template-columns:1fr;gap:4px;padding:24px 0;}
+    .rec .cat{padding-top:0;}
+    .recs{border-top-width:2px;}
+
+    /* scope */
+    .scope{grid-template-columns:1fr;}
+    .sc{padding:26px 20px;border-right:none;border-bottom:1px solid var(--line);}
+    .sc:last-child{border-bottom:none;}
+
+    /* clients */
+    .cgroup{margin-bottom:32px;}
+    .clist span{padding:7px 14px;font-size:.84rem;}
+
+    /* company */
+    .co-grid{grid-template-columns:1fr;gap:32px;}
+    .orow{grid-template-columns:110px 1fr;gap:12px;padding:14px 0;}
+    .contact-card{padding:28px 20px;}
+
+    /* footer */
+    footer{padding:32px 0;}
+    footer .wrap{flex-direction:column;gap:8px;text-align:center;}
+  }
+
+  /* ── 태블릿 ── */
+  @media(min-width:601px) and (max-width:880px){
+    :root{--gut:28px;}
+    section{padding:72px 0;}
+    .sec-head{grid-template-columns:1fr;gap:16px;margin-bottom:40px;}
+    .hero-text{padding:64px 0 56px;}
+    header h1{font-size:clamp(1.9rem,5vw,2.6rem);}
+    .spec-bar{grid-template-columns:repeat(2,1fr);}
+    .sp:nth-child(2){border-right:none;}
+    .sp:nth-child(3),.sp:nth-child(4){border-top:1px solid rgba(255,255,255,.08);}
+    .pull{padding:36px 36px;}
+    .co-grid{grid-template-columns:1fr;}
+  }
 </style>
 </head>
 <body>
@@ -388,8 +541,21 @@
       <a href="#record">실적</a>
       <a href="#company" class="nav-cta">문의하기</a>
     </div>
+    <button class="ham" id="ham" aria-label="메뉴">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- 모바일 드로어 -->
+<div class="mob-nav" id="mob-nav">
+  <a href="#method" class="mob-link">면삭 공법</a>
+  <a href="#tech"   class="mob-link">보유 기술</a>
+  <a href="#equip"  class="mob-link">보유 설비</a>
+  <a href="#qa"     class="mob-link">품질 관리</a>
+  <a href="#record" class="mob-link">실적</a>
+  <a href="#company" class="nav-cta mob-link">문의하기</a>
+</div>
 
 <!-- HERO -->
 <header>
@@ -633,13 +799,34 @@
     <div class="brand-f">동신정밀 · DONGSIN TECH</div>
     <div>경상북도 칠곡군 지천면 금호로1길 34 · T. 054-971-1656</div>
   </div>
+  <div class="wrap" style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);">
+    <div class="copy">© 2026 동신정밀 (DONGSIN TECH). All rights reserved.</div>
+    <div class="copy">사업자등록번호 · 경북 칠곡군 지천면 금호로1길 34</div>
+  </div>
 </footer>
 
 <script>
+  // 스크롤 reveal
   const io = new IntersectionObserver(es=>{
     es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} });
   },{threshold:.1});
   document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  // 햄버거 메뉴
+  const ham = document.getElementById('ham');
+  const mob = document.getElementById('mob-nav');
+  ham.addEventListener('click',()=>{
+    ham.classList.toggle('open');
+    mob.classList.toggle('open');
+    document.body.style.overflow = mob.classList.contains('open') ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mob-link').forEach(a=>{
+    a.addEventListener('click',()=>{
+      ham.classList.remove('open');
+      mob.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
 </script>
 </body>
 </html>
